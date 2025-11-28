@@ -29,6 +29,18 @@
       "image": "https://picsum.photos/400/300?random=3",
       "description": "Thành phố ngàn hoa với khí hậu mát mẻ quanh năm",
       "available": 10
+    },
+    {
+      "name": "Mộc Châu Tour",
+      "destination": "Mộc Châu",
+      "duration": "2 ngày 1 đêm",
+      "price": 3000000,
+      "description": "hh",
+      "available": 10,
+      "image": "https://picsum.photos/400/300?random=4",
+      "category": "nội địa",
+      "active": true,
+      "id": 5
     }
   ]
 }

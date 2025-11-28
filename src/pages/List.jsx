@@ -19,6 +19,22 @@ function List() {
       .finally(() => setLoading(false));
   }, []);
 
+  const handleDelete = async (tourId) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa tour này?")) {
+      try {
+        await axios.delete(`${API_URL}/${tourId}`);
+        setTours((prev) => prev.filter((item) => item.id !== tourId));
+      } catch (err) {
+        alert("Xóa không thành công, thử lại sau nhé!");
+      }
+    }
+  };
+
+  const handleEdit = (tourId) => {
+    navigate(`/edit/${tourId}`);
+  };
+
+
   if (loading) return <p className="mt-6 text-center">Đang tải dữ liệu...</p>;
   if (error) return <p className="mt-6 text-center text-red-500">{error}</p>;
   if (!tours.length) return <p className="mt-6 text-center text-gray-500">Chưa có tour nào</p>;
@@ -38,6 +54,7 @@ function List() {
               <th className="px-4 py-2 border border-gray-300 text-left">Thời gian</th>
               <th className="px-4 py-2 border border-gray-300 text-left">Giá</th>
               <th className="px-4 py-2 border border-gray-300 text-left">Số lượng còn</th>
+              <th className="px-4 py-2 border border-gray-300 text-left">Hành Động</th>
             </tr>
           </thead>
 
@@ -59,6 +76,21 @@ function List() {
                   {tour.price.toLocaleString()} VNĐ
                 </td>
                 <td className="px-4 py-2 border border-gray-300">{tour.available}</td>
+                <td className="px-4 py-2 border border-gray-300">
+                  <button
+                    onClick={() => navigate(`/tours/edit/${tour.id}`)}
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mr-2"
+                  >
+                    Sửa
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(tour.id)}
+                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                  >
+                    Xóa
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
