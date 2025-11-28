@@ -1,147 +1,129 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom'
 
 function Edit() {
   const { id } = useParams();
+
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [destination, setDestination] = useState("");
+  const [duration, setDuration] = useState("");
+  const [category, setCategory] = useState("Tour nội địa");
+  const [image, setImage] = useState("");
+
   const navigate = useNavigate();
-  const API_URL = "http://localhost:3001/tours";
-
-  const [formData, setFormData] = useState({
-    name: "",
-    destination: "",
-    duration: "",
-    price: "",
-    description: "",
-    available: "",
-    image: "",
-    category: "",
-  });
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // Lấy thông tin tour theo ID
   useEffect(() => {
     axios
-      .get(`${API_URL}/${id}`)
-      .then((res) => setFormData(res.data))
-      .catch(() => setError("Không thể tải thông tin tour"))
-      .finally(() => setLoading(false));
+      .get(`http://localhost:3001/tours/${id}`)
+      .then((res) => {
+        const t = res.data;
+        setName(t.name);
+        setPrice(t.price);
+        setDestination(t.destination);
+        setDuration(t.duration);
+        setCategory(t.category);
+        setImage(t.image);
+      })
+      .catch(() => toast.error("Không tìm thấy tour"));
   }, [id]);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // Submit update
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
-      await axios.put(`${API_URL}/${id}`, formData);
-      alert("Cập nhật tour thành công!");
-      navigate("/List"); // điều hướng về list
+      await axios.put(`http://localhost:3001/tours/${id}`, {
+        name,
+        price: Number(price),
+        destination,
+        duration,
+        category,
+        image,
+      });
+
+      toast.success("Sửa thành công!");
+      navigate("/List");
     } catch (error) {
-      alert("Có lỗi xảy ra, vui lòng thử lại!");
+      toast.error("Sửa thất bại!");
     }
   };
 
-  if (loading) return <p className="text-center mt-6">Đang tải dữ liệu...</p>;
-  if (error) return <p className="text-center mt-6 text-red-500">{error}</p>;
-
   return (
-    <div className="max-w-xl mx-auto p-6">
-      <h2 className="text-2xl font-semibold mb-4">Sửa tour</h2>
+    <div className="p-6">
+      <h1 className="text-2xl font-semibold mb-6">Chỉnh sửa Tour</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form className="space-y-6" onSubmit={handleSubmit}>
+
         <div>
-          <label className="font-medium">Tên Tour</label>
+          <label className="block font-medium mb-1">Tên Tour</label>
           <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             type="text"
-            name="name"
-            className="w-full border p-2 rounded"
-            value={formData.name}
-            onChange={handleChange}
-            required
+            className="w-full border rounded-lg px-3 py-2"
           />
         </div>
 
         <div>
-          <label className="font-medium">Điểm đến</label>
+          <label className="block font-medium mb-1">Điểm đến</label>
           <input
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
             type="text"
-            name="destination"
-            className="w-full border p-2 rounded"
-            value={formData.destination}
-            onChange={handleChange}
-            required
+            className="w-full border rounded-lg px-3 py-2"
           />
         </div>
 
         <div>
-          <label className="font-medium">Thời gian</label>
+          <label className="block font-medium mb-1">Thời gian</label>
           <input
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
             type="text"
-            name="duration"
-            className="w-full border p-2 rounded"
-            value={formData.duration}
-            onChange={handleChange}
-            required
+            className="w-full border rounded-lg px-3 py-2"
           />
         </div>
 
         <div>
-          <label className="font-medium">Giá</label>
+          <label className="block font-medium mb-1">Ảnh (URL)</label>
           <input
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            type="text"
+            className="w-full border rounded-lg px-3 py-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1">Giá</label>
+          <input
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             type="number"
-            name="price"
-            className="w-full border p-2 rounded"
-            value={formData.price}
-            onChange={handleChange}
-            required
+            className="w-full border rounded-lg px-3 py-2"
           />
         </div>
 
         <div>
-          <label className="font-medium">Số lượng còn</label>
-          <input
-            type="number"
-            name="available"
-            className="w-full border p-2 rounded"
-            value={formData.available}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label className="font-medium">Ảnh</label>
-          <input
-            type="text"
-            name="image"
-            className="w-full border p-2 rounded"
-            value={formData.image}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div>
-          <label className="font-medium">Mô tả</label>
-          <textarea
-            name="description"
-            className="w-full border p-2 rounded"
-            rows="4"
-            value={formData.description}
-            onChange={handleChange}
-          ></textarea>
+          <label className="block font-medium mb-1">Category</label>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full border rounded-lg px-3 py-2 bg-white"
+          >
+            <option value="Tour nội địa">Tour nội địa</option>
+            <option value="Tour quốc tế">Tour quốc tế</option>
+          </select>
         </div>
 
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
-          Cập nhật
+          Lưu thay đổi
         </button>
       </form>
     </div>

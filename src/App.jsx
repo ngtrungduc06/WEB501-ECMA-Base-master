@@ -19,7 +19,7 @@ function App() {
             <a href="/list" className="hover:text-gray-200">
               Danh sách
             </a>
-            <a href="Add" className="hover:text-gray-200">
+            <a href="add" className="hover:text-gray-200">
               Thêm mới
             </a>
           </div>
@@ -40,9 +40,9 @@ function App() {
         <h1 className="text-4xl font-bold mb-4">Chào mừng đến với WEB501</h1>
         <p className="text-lg text-gray-600">Ứng dụng quản lý dữ liệu</p>
         <Routes>
-          <Route path="/List" element={<List />} />
-          <Route path="/Add" element={<Add />} />
-          <Route path="/edit/:id" element={<Edit />} />
+          <Route path="/list" element={<List />} />
+          <Route path="/add" element={<Add />} />
+          <Route path="/pages/edit/:id" element={<Edit />} />
         </Routes>
       </div>
 
