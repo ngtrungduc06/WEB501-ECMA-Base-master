@@ -56,5 +56,29 @@
       "image": "https://picsum.photos/400/300?random=6",
       "id": 7
     }
+  ],
+  "users": [
+    {
+      "email": "tdux@gmail.com",
+      "password": "$2a$10$gzCrhNy4kBUlOnk08qqmr.3zAtAt3bknOMlUAA0VtfW4CWiofAO7S",
+      "name": "tduc",
+      "id": 1
+    },
+    {
+      "email": "tducc@gmail.com",
+      "password": "$2a$10$V3hU/fkwh57WqRNEDt03Nu2vTKb8xvrAyJfZrXXemYfU9wwqQwKjG",
+      "name": "Trần Văn H",
+      "id": 2
+    },
+    {
+      "email": "admin@gmail.com",
+      "password": "$2a$10$hQvY0fJ0lGZTVq1Volf8nO/mDDAKTT2D1InNAbPBZvKiiBbnPGuKu",
+      "id": 3
+    },
+    {
+      "email": "ncc@gmail.com",
+      "password": "$2a$10$CMtLEEdpUZmhI9rbiYynRuFdS8k/3ehRED/qreZnSj/YvJnkXEPdu",
+      "id": 4
+    }
   ]
 }

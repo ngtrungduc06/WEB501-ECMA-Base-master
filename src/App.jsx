@@ -1,8 +1,11 @@
 import { Toaster } from "react-hot-toast";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import List from "./pages/List";
 import Add from "./pages/Add";
 import Edit from "./pages/Edit";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import AdminLayout from './layout/AdminLayout';
 function App() {
   return (
     <>
@@ -25,12 +28,12 @@ function App() {
           </div>
 
           <div className="hidden md:flex items-center space-x-6">
-            <a href="#" className="hover:text-gray-200">
+            <Link to="/login" className="hover:text-gray-200">
               Đăng nhập
-            </a>
-            <a href="#" className="hover:text-gray-200">
+            </Link>
+            <Link to="/register" className="hover:text-gray-200">
               Đăng ký
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
@@ -40,9 +43,13 @@ function App() {
         <h1 className="text-4xl font-bold mb-4">Chào mừng đến với WEB501</h1>
         <p className="text-lg text-gray-600">Ứng dụng quản lý dữ liệu</p>
         <Routes>
-          <Route path="/list" element={<List />} />
-          <Route path="/add" element={<Add />} />
-          <Route path="/pages/edit/:id" element={<Edit />} />
+          <Route element={<AdminLayout />}>
+            <Route path="/list" element={<List />} />
+            <Route path="/add" element={<Add />} />
+            <Route path="/pages/edit/:id" element={<Edit />} />
+          </Route>``
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </div>
 
