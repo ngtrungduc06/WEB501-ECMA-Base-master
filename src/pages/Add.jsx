@@ -11,10 +11,20 @@ function Add() {
   const [category, setCategory] = useState('Tour nội địa')
   const [image, setImage] = useState('')
 
+
+
   const navigate = useNavigate();
   // handleChange
-  const handleSubmit = async event => {
-    event.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!name || !price || !destination || !duration || !image) {
+      return toast.error("Vui lòng nhập đầy đủ thông tin!")
+    }
+
+    if (Number(price) <= 0) {
+      return toast.error("Giá phải lớn hơn 0")
+    }
+    
     try {
       await axios.post('http://localhost:3001/tours', {
         name, // es6
